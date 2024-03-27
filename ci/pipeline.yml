@@ -1,0 +1,52 @@
+resources:
+  - name: source-code
+    type: git
+    source:
+      uri: https://github.com/huycong1409/concource-demo.git
+      branch: main
+
+jobs:
+  - name: build-and-package
+    plan:
+      - get: source-code
+        trigger: true
+      - task: build
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: maven, tag: 3.6.3-jdk-11}
+          inputs:
+            - name: source-code
+          outputs:
+            - name: build-output
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                cd source-code
+                mvn clean package
+                mkdir -p ../build-output
+                cp target/*.jar ../build-output/
+
+  - name: deploy-to-production
+    plan:
+      - get: source-code
+        passed: [build-and-package]
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: adoptopenjdk/openjdk11, tag: alpine-jre}
+          inputs:
+            - name: source-code
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                cd source-code
+                java -jar target/*.jar
