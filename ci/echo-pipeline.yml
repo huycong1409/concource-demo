@@ -1,0 +1,32 @@
+resources:
+  - name: source-code
+    type: git
+    source:
+      uri: https://github.com/huycong1409/concource-demo.git
+      branch: main
+jobs:
+  - name: test-job-1
+    plan:
+      - get: source-code
+        trigger: true
+      - task: test-job-1-step-1
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: busybox
+          run:
+            path: echo
+            args: ["Job 1-Step 1 done"]
+
+      - task: test-job-1-step-2
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: busybox
+          run:
+            path: echo
+            args: [ "Job 1-Step 2 done" ]
