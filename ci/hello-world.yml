@@ -10,4 +10,33 @@ jobs:
             repository: busybox
         run:
           path: echo
-          args: ["Hello Coong!"]
+          args: ["Hello world 1!"]
+
+    - task: hello-world-task-2
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: busybox
+        run:
+          path: echo
+          args: [ "Hello world 2!" ]
+
+    - task: hello-world-task-3
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: busybox
+        run:
+          path: echo
+          args: [ "Hello world 3.!" ]
+
+schedules:
+  - name: daily-build
+    cron: "32 11 * * 1-5"  # Run on Mon to Fri at 8 AM. (Minute Hour DayOfMonth Month DayOfWeek)
+    pipeline: hello-world
+    build_logs_to_retain: 10  # Số lượng log của build muốn giữ lại
+    skip_on_first_run: true   # Không chạy lập tức khi đặt lịch trình
