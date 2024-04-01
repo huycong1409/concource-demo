@@ -40,11 +40,11 @@ jobs:
               repository: busybox
           run:
             path: echo
-            args: [ "Hello world 3.!" ]
+            args: [ "Hello world 3!" ]
 
 schedules:
   - name: daily-build
-    cron: "42 20 * * 1-5"  # Run on Mon to Fri at 8 AM. (Minute Hour DayOfMonth Month DayOfWeek)
+    cron: "45 20 * * 1-5"  # Run on Mon to Fri at 8 AM. (Minute Hour DayOfMonth Month DayOfWeek)
     pipeline: hello-world
     build_logs_to_retain: 10  # Số lượng log của build muốn giữ lại
     skip_on_first_run: true   # Không chạy lập tức khi đặt lịch trình
