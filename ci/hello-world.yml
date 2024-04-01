@@ -1,42 +1,50 @@
+resources:
+  - name: source-code
+    type: git
+    source:
+      uri: https://github.com/huycong1409/concource-demo.git
+      branch: main
 jobs:
   - name: hello-world-job
     plan:
-    - task: hello-world-task
-      config:
-        platform: linux
-        image_resource:
-          type: registry-image
-          source:
-            repository: busybox
-        run:
-          path: echo
-          args: ["Hello world 1!"]
+      - get: source-code
+        trigger: true
+      - task: hello-world-task
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: busybox
+          run:
+            path: echo
+            args: ["Hello world 1!"]
 
-    - task: hello-world-task-2
-      config:
-        platform: linux
-        image_resource:
-          type: registry-image
-          source:
-            repository: busybox
-        run:
-          path: echo
-          args: [ "Hello world 2!" ]
+      - task: hello-world-task-2
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: busybox
+          run:
+            path: echo
+            args: [ "Hello world 2!" ]
 
-    - task: hello-world-task-3
-      config:
-        platform: linux
-        image_resource:
-          type: registry-image
-          source:
-            repository: busybox
-        run:
-          path: echo
-          args: [ "Hello world 3.!" ]
+      - task: hello-world-task-3
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: busybox
+          run:
+            path: echo
+            args: [ "Hello world 3.!" ]
 
 schedules:
   - name: daily-build
-    cron: "32 11 * * 1-5"  # Run on Mon to Fri at 8 AM. (Minute Hour DayOfMonth Month DayOfWeek)
+    cron: "42 20 * * 1-5"  # Run on Mon to Fri at 8 AM. (Minute Hour DayOfMonth Month DayOfWeek)
     pipeline: hello-world
     build_logs_to_retain: 10  # Số lượng log của build muốn giữ lại
     skip_on_first_run: true   # Không chạy lập tức khi đặt lịch trình
