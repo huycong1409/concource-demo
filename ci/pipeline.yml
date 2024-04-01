@@ -21,7 +21,7 @@ jobs:
         config:
           platform: linux
           image_resource:
-            type: registry-image
+            type: docker-image
             source:
               repository: maven
               tag: 3.6.0-jdk-8-alpine
@@ -44,7 +44,7 @@ jobs:
         config:
           platform: linux
           image_resource:
-            type: registry-image
+            type: docker-image
             source:
               repository: maven
               tag: 3.6.0-jdk-8-alpine
@@ -77,7 +77,7 @@ jobs:
         config:
           platform: linux
           image_resource:
-            type: registry-image
+            type: docker-image
             source:
               repository: adoptopenjdk/openjdk11
               tag: alpine-jre
